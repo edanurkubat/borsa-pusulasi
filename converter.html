@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dönüştürücü — Borsa Pusulası</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/portfolio.css" />
+    <link rel="stylesheet" href="css/converter.css" />
+  </head>
+  <body>
+    <header class="header z1">
+      <div class="header-left">
+        <a href="index.html" style="text-decoration: none">
+          <div class="logo">
+            <span class="logo-icon">◈</span>
+            <span class="logo-text">BORSA<span>PUSULASI</span></span>
+          </div>
+        </a>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-item">Piyasa</a>
+          <a href="portfolio.html" class="nav-item">Portföy</a>
+          <a href="forex.html" class="nav-item">Döviz</a>
+          <a href="converter.html" class="nav-item">Dönüştürücü</a>
+          <a href="news.html" class="nav-item">Haberler</a>
+          <a href="profile.html" class="nav-item">Profil</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <button
+          class="theme-btn"
+          id="themeBtn"
+          onclick="toggleTheme()"
+          title="Tema Değiştir"
+        >
+          🌙
+        </button>
+        <div class="user-info" id="userInfo" style="display: none">
+          <div class="user-dropdown-wrap">
+            <button
+              class="user-avatar-btn"
+              id="userAvatarBtn"
+              onclick="toggleDropdown()"
+            >
+              <span class="user-avatar-icon" id="userAvatarIcon">?</span>
+              <span id="userGreet"></span>
+              <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profile.html" class="dropdown-item">👤 Profil</a>
+              <a href="settings.html" class="dropdown-item"
+                >⚙️ Hesap Ayarları</a
+              >
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger" onclick="logout()">
+                🚪 Çıkış Yap
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          id="authBtns"
+          style="display: flex; gap: 0.5rem; align-items: center"
+        >
+          <button class="header-btn-outline" onclick="openModal('login')">
+            Giriş Yap
+          </button>
+          <button class="header-btn-solid" onclick="openModal('register')">
+            Kayıt Ol
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="converter-main z1">
+      <div class="converter-wrap">
+        <h1 class="converter-title">💱 Kripto Dönüştürücü</h1>
+        <p class="converter-sub">
+          Anlık piyasa fiyatlarıyla kripto para dönüşümü yap
+        </p>
+
+        <!-- DÖNÜŞTÜRÜCÜ KARTI -->
+        <div class="converter-card">
+          <!-- GİRDİ -->
+          <div class="conv-row">
+            <div class="conv-field">
+              <label>Miktar</label>
+              <input
+                type="number"
+                id="convAmount"
+                value="1"
+                min="0"
+                oninput="convert()"
+              />
+            </div>
+            <div class="conv-field">
+              <label>Kaynak</label>
+              <select id="convFrom" onchange="convert()">
+                <option value="USDT">USDT — Tether</option>
+                <option value="BTC" selected>BTC — Bitcoin</option>
+                <option value="ETH">ETH — Ethereum</option>
+                <option value="SOL">SOL — Solana</option>
+                <option value="BNB">BNB — BNB</option>
+                <option value="ADA">ADA — Cardano</option>
+                <option value="AVAX">AVAX — Avalanche</option>
+                <option value="DOT">DOT — Polkadot</option>
+                <option value="LINK">LINK — Chainlink</option>
+                <option value="MATIC">MATIC — Polygon</option>
+                <option value="XRP">XRP — XRP</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SWAP BUTONU -->
+          <div class="conv-swap">
+            <button class="swap-btn" onclick="swapCoins()" title="Yer değiştir">
+              ⇅
+            </button>
+          </div>
+
+          <!-- ÇIKTI -->
+          <div class="conv-row">
+            <div class="conv-field">
+              <label>Sonuç</label>
+              <div class="conv-result" id="convResult">—</div>
+            </div>
+            <div class="conv-field">
+              <label>Hedef</label>
+              <select id="convTo" onchange="convert()">
+                <option value="USDT" selected>USDT — Tether</option>
+                <option value="BTC">BTC — Bitcoin</option>
+                <option value="ETH">ETH — Ethereum</option>
+                <option value="SOL">SOL — Solana</option>
+                <option value="BNB">BNB — BNB</option>
+                <option value="ADA">ADA — Cardano</option>
+                <option value="AVAX">AVAX — Avalanche</option>
+                <option value="DOT">DOT — Polkadot</option>
+                <option value="LINK">LINK — Chainlink</option>
+                <option value="MATIC">MATIC — Polygon</option>
+                <option value="XRP">XRP — XRP</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- KUR BİLGİSİ -->
+          <div class="conv-rate" id="convRate">Fiyatlar yükleniyor...</div>
+        </div>
+
+        <!-- HIZLI DÖNÜŞÜM TABLOSU -->
+        <div class="panel">
+          <div class="panel-head">
+            <span class="panel-title">📊 Hızlı Referans</span>
+            <span class="panel-sub" id="rateUpdate"></span>
+          </div>
+          <table class="rate-table">
+            <thead>
+              <tr>
+                <th>Coin</th>
+                <th>USDT Fiyatı</th>
+                <th>BTC Karşılığı</th>
+                <th>ETH Karşılığı</th>
+                <th>24s %</th>
+              </tr>
+            </thead>
+            <tbody id="rateBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer z1">
+      <div class="footer-inner">
+        <span class="footer-logo">◈ BORSAPUSULASI</span>
+        <div class="footer-mid">
+          <span class="footer-copy"
+            >© 2026 Borsa Pusulası. Tüm hakları saklıdır.</span
+          >
+          <span class="footer-disclaimer"
+            >Bu platform yatırım tavsiyesi vermez.</span
+          >
+        </div>
+        <span class="footer-contact">
+          <a href="mailto:borsapusulasiweb@gmail.com"
+            >✉ borsapusulasiweb@gmail.com</a
+          >
+        </span>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast z1">
+      <div class="toast-ico" id="toastIco">✅</div>
+      <div>
+        <div class="toast-title" id="toastTitle">—</div>
+        <div class="toast-msg" id="toastMsg">—</div>
+      </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal" id="authModal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="loginForm">
+        <h2 class="modal-title">Giriş Yap</h2>
+        <div class="modal-field">
+          <label>Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="email@example.com"
+            onkeydown="if (event.key === 'Enter') handleLogin();"
+          />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="••••••"
+              style="width: 100%; padding-right: 36px"
+              onkeydown="if (event.key === 'Enter') handleLogin();"
+            />
+            <button
+              onclick="togglePass('loginPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="loginCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('loginCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="loginCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <p class="modal-switch" style="margin-bottom: 0.5rem">
+          Şifreni mi unuttun?
+          <span
+            onclick="forgotPasswordPublic()"
+            style="color: var(--green); cursor: pointer"
+          >
+            E-postana sıfırlama linki gönder
+          </span>
+        </p>
+        <div class="modal-error" id="loginError"></div>
+        <button class="modal-btn" onclick="handleLogin()">Giriş Yap</button>
+        <p class="modal-switch">
+          Hesabın yok mu? <span onclick="openModal('register')">Kayıt Ol</span>
+        </p>
+      </div>
+      <div id="registerForm" style="display: none">
+        <h2 class="modal-title">Kayıt Ol</h2>
+        <div class="modal-field">
+          <label>Kullanıcı Adı</label>
+          <input type="text" id="regUsername" placeholder="kullaniciadi" />
+        </div>
+        <div class="modal-field">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="email@example.com" />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="En az 6 karakter"
+              style="width: 100%; padding-right: 36px"
+            />
+            <button
+              onclick="togglePass('regPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="registerCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('registerCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="registerCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <div class="modal-error" id="registerError"></div>
+        <button class="modal-btn" onclick="handleRegister()">Kayıt Ol</button>
+        <p class="modal-switch">
+          Zaten hesabın var mı?
+          <span onclick="openModal('login')">Giriş Yap</span>
+        </p>
+      </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/converter.js"></script>
+  </body>
+</html>

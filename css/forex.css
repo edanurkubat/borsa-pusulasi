@@ -1,0 +1,417 @@
+/* css/forex.css */
+
+.forex-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Hero */
+.forex-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.forex-title {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.forex-sub {
+  font-size: 0.72rem;
+  color: var(--text3);
+}
+
+.forex-base-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.forex-base-wrap label {
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.forex-base-wrap select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.forex-base-wrap select:focus {
+  border-color: rgba(5, 215, 138, 0.4);
+  box-shadow: 0 0 0 2px rgba(5, 215, 138, 0.1);
+}
+.forex-base-wrap select option {
+  background: var(--bg2);
+}
+
+/* Kur kartları */
+.forex-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.forex-card {
+  background: var(--grad-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+.forex-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grad-green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.forex-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(5, 215, 138, 0.2);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(5, 215, 138, 0.1);
+}
+.forex-card:hover::before {
+  transform: scaleX(1);
+}
+
+.forex-card-flag {
+  font-size: 1.4rem;
+}
+.forex-card-code {
+  font-size: 0.65rem;
+  color: var(--text3);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.forex-card-rate {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.forex-card-chg {
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.forex-card-chg.up {
+  color: var(--green);
+}
+.forex-card-chg.dn {
+  color: var(--red);
+}
+
+/* Grafik */
+.forex-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.forex-pair-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.forex-pair-tab {
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all 0.18s;
+}
+.forex-pair-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+.forex-pair-tab.active {
+  background: rgba(5, 215, 138, 0.12);
+  color: var(--green);
+  border-color: rgba(5, 215, 138, 0.3);
+}
+
+.forex-tf-tabs {
+  display: flex;
+  gap: 4px;
+}
+.forex-tf {
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all 0.18s;
+}
+.forex-tf:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+.forex-tf.active {
+  background: rgba(5, 215, 138, 0.12);
+  color: var(--green);
+  border-color: rgba(5, 215, 138, 0.3);
+}
+
+.forex-chart-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.8rem 1.2rem 0;
+}
+.forex-chart-pair {
+  font-family: var(--display);
+  font-size: 1rem;
+  color: var(--text3);
+}
+.forex-chart-val {
+  font-family: var(--display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.forex-chart-chg {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+.forex-chart-chg.up {
+  background: var(--green-dim);
+  color: var(--green);
+}
+.forex-chart-chg.dn {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+canvas#forexChart {
+  width: 100% !important;
+  display: block;
+  padding: 0.6rem 1.2rem 1.2rem;
+}
+
+/* Çevirici */
+.forex-conv-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.forex-conv-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.forex-conv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 120px;
+}
+.forex-conv-field label {
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.forex-conv-field input,
+.forex-conv-field select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s;
+}
+.forex-conv-field input:focus,
+.forex-conv-field select:focus {
+  border-color: rgba(5, 215, 138, 0.4);
+  box-shadow: 0 0 0 2px rgba(5, 215, 138, 0.1);
+}
+.forex-conv-field select option {
+  background: var(--bg2);
+}
+
+.forex-conv-result {
+  background: rgba(5, 215, 138, 0.06);
+  border: 1px solid rgba(5, 215, 138, 0.25);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  text-shadow: 0 0 10px rgba(5, 215, 138, 0.3);
+}
+
+.forex-swap-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  align-self: flex-end;
+}
+.forex-swap-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  transform: rotate(180deg);
+  box-shadow: var(--glow-green);
+}
+
+.forex-conv-rate {
+  font-size: 0.7rem;
+  color: var(--text3);
+  padding: 0.5rem 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Tablo */
+.forex-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.forex-table thead tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.forex-table th {
+  padding: 0.6rem 1rem;
+  font-size: 0.6rem;
+  color: var(--text3);
+  text-align: left;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.forex-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.forex-table tbody tr {
+  transition: all 0.15s;
+  cursor: default;
+  position: relative;
+}
+.forex-table tbody tr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--green);
+  transition: width 0.2s;
+}
+.forex-table tbody tr:hover {
+  background: rgba(5, 215, 138, 0.03);
+}
+.forex-table tbody tr:hover::before {
+  width: 2px;
+}
+.forex-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.forex-flag-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 160px;
+}
+.forex-flag {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.forex-code {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.forex-name {
+  font-size: 0.6rem;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .forex-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .forex-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .forex-conv-row {
+    flex-direction: column;
+  }
+  .forex-table th:nth-child(4),
+  .forex-table td:nth-child(4),
+  .forex-table th:nth-child(5),
+  .forex-table td:nth-child(5) {
+    display: none;
+  }
+}
+.forex-code {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 0.82rem;
+}

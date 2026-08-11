@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil — Borsa Pusulası</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/portfolio.css" />
+    <link rel="stylesheet" href="css/profile.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  </head>
+  <body>
+    <header class="header z1">
+      <div class="header-left">
+        <a href="index.html" style="text-decoration: none">
+          <div class="logo">
+            <span class="logo-icon">◈</span>
+            <span class="logo-text">BORSA<span>PUSULASI</span></span>
+          </div>
+        </a>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-item">Piyasa</a>
+          <a href="portfolio.html" class="nav-item">Portföy</a>
+          <a href="forex.html" class="nav-item">Döviz</a>
+          <a href="converter.html" class="nav-item">Dönüştürücü</a>
+          <a href="news.html" class="nav-item">Haberler</a>
+          <a href="profile.html" class="nav-item">Profil</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <button
+          class="theme-btn"
+          id="themeBtn"
+          onclick="toggleTheme()"
+          title="Tema Değiştir"
+        >
+          🌙
+        </button>
+        <div class="user-info" id="userInfo" style="display: none">
+          <div class="user-dropdown-wrap">
+            <button
+              class="user-avatar-btn"
+              id="userAvatarBtn"
+              onclick="toggleDropdown()"
+            >
+              <span class="user-avatar-icon" id="userAvatarIcon">?</span>
+              <span id="userGreet"></span>
+              <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profile.html" class="dropdown-item">👤 Profil</a>
+              <a href="settings.html" class="dropdown-item"
+                >⚙️ Hesap Ayarları</a
+              >
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger" onclick="logout()">
+                🚪 Çıkış Yap
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          id="authBtns"
+          style="display: flex; gap: 0.5rem; align-items: center"
+        >
+          <button class="header-btn-outline" onclick="openModal('login')">
+            Giriş Yap
+          </button>
+          <button class="header-btn-solid" onclick="openModal('register')">
+            Kayıt Ol
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="portfolio-main z1" style="flex:1">
+      <div id="notLoggedIn" style="display: none" class="auth-warn">
+        <div class="auth-warn-box">
+          <span>🔒</span>
+          <h2>Giriş Gerekli</h2>
+          <p>Profilini görmek için giriş yapman gerekiyor.</p>
+          <button
+            class="modal-btn"
+            onclick="window.location.href = 'index.html'"
+          >
+            Ana Sayfaya Dön
+          </button>
+        </div>
+      </div>
+
+      <div id="profileContent">
+        <div class="profile-card">
+          <div
+            class="profile-avatar"
+            id="profileAvatar"
+            onclick="document.getElementById('avatarInput').click()"
+            style="cursor: pointer; position: relative; overflow: hidden"
+            title="Resim yüklemek için tıkla"
+          >
+            ?
+            <div
+              style="
+                position: absolute;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.2s;
+                font-size: 1.2rem;
+              "
+              id="avatarOverlay"
+            >
+              📷
+            </div>
+          </div>
+          <input
+            type="file"
+            id="avatarInput"
+            accept="image/*"
+            style="display: none"
+            onchange="uploadAvatar(this)"
+          />
+          <div class="profile-info">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                flex-wrap: wrap;
+              "
+            >
+              <h1 class="profile-name" id="profileName">—</h1>
+              <span
+                id="verifiedBadge"
+                style="
+                  display: none;
+                  font-size: 0.65rem;
+                  padding: 3px 10px;
+                  border-radius: 20px;
+                  font-weight: 700;
+                  letter-spacing: 0.5px;
+                "
+              ></span>
+            </div>
+            <p class="profile-since">Üye: <span id="profileSince">—</span></p>
+            <p
+              style="font-size: 0.65rem; color: var(--text3); margin-top: 2px"
+              id="profileEmail"
+            >
+              —
+            </p>
+            <button
+              onclick="downloadProfilePDF()"
+              style="
+                padding: 9px 18px;
+                border: none;
+                border-radius: 8px;
+                background: var(--grad-green);
+                color: var(--bg);
+                font-family: var(--display);
+                font-size: 0.75rem;
+                font-weight: 700;
+                cursor: pointer;
+                margin-top: 0.5rem;
+              "
+            >
+              ⬇ PDF Rapor İndir
+            </button>
+          </div>
+          <!-- AKTİVASYON PANEL — sadece aktif değilse görünür -->
+          <div id="verifyPanel" style="display: none" class="panel">
+            <div class="panel-head">
+              <span class="panel-title">⚠️ Hesap Aktivasyonu</span>
+              <span class="panel-sub" style="color: var(--red)"
+                >Aktif Değil</span
+              >
+            </div>
+            <div
+              style="
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+              "
+            >
+              <p
+                style="
+                  font-size: 0.78rem;
+                  color: var(--text2);
+                  line-height: 1.6;
+                "
+              >
+                Hesabın henüz aktif değil. E-posta adresine gönderilecek 6
+                haneli kodu girerek hesabını aktifleştirebilirsin.
+              </p>
+              <div
+                style="
+                  display: flex;
+                  gap: 0.8rem;
+                  flex-wrap: wrap;
+                  align-items: flex-end;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    flex: 1;
+                    min-width: 180px;
+                  "
+                >
+                  <label
+                    style="
+                      font-size: 0.6rem;
+                      color: var(--text3);
+                      letter-spacing: 1px;
+                      text-transform: uppercase;
+                    "
+                    >Aktivasyon Kodu</label
+                  >
+                  <input
+                    type="text"
+                    id="otpInput"
+                    maxlength="6"
+                    placeholder="000000"
+                    style="
+                      background: rgba(255, 255, 255, 0.04);
+                      border: 1px solid rgba(255, 255, 255, 0.08);
+                      border-radius: 8px;
+                      padding: 10px 14px;
+                      color: var(--text);
+                      font-family: var(--mono);
+                      font-size: 1.1rem;
+                      letter-spacing: 6px;
+                      outline: none;
+                      text-align: center;
+                    "
+                  />
+                </div>
+                <button
+                  onclick="verifyOtp()"
+                  style="
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 8px;
+                    background: var(--grad-green);
+                    color: var(--bg);
+                    font-family: var(--display);
+                    font-size: 0.82rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                  "
+                >
+                  Doğrula
+                </button>
+                <button
+                  onclick="sendOtp()"
+                  id="sendOtpBtn"
+                  style="
+                    padding: 10px 20px;
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    background: transparent;
+                    color: var(--text2);
+                    font-family: var(--mono);
+                    font-size: 0.75rem;
+                    cursor: pointer;
+                  "
+                >
+                  Kod Gönder
+                </button>
+              </div>
+              <div
+                id="otpMsg"
+                style="font-size: 0.72rem; min-height: 18px"
+              ></div>
+            </div>
+          </div>
+          <div class="profile-stats">
+            <div class="pstat">
+              <span class="pstat-val" id="pTrades">—</span>
+              <span class="pstat-label">İşlem</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val" id="pWatchlist">—</span>
+              <span class="pstat-label">İzleme</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val positive" id="pBalance">—</span>
+              <span class="pstat-label">Toplam Harcama</span>
+            </div>
+            <div class="pstat">
+              <span class="pstat-val" id="pPnl">—</span>
+              <span class="pstat-label">Toplam K/Z</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-title">❤️ İzleme Listesi</span>
+            </div>
+            <div id="profileWatchlist" class="profile-watchlist"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-title">📋 Son İşlemler</span>
+            </div>
+            <div id="profileTrades" class="profile-trades"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer z1">
+      <div class="footer-inner">
+        <span class="footer-logo">◈ BORSAPUSULASI</span>
+        <div class="footer-mid">
+          <span class="footer-copy"
+            >© 2026 Borsa Pusulası. Tüm hakları saklıdır.</span
+          >
+          <span class="footer-disclaimer"
+            >Bu platform yatırım tavsiyesi vermez.</span
+          >
+        </div>
+        <span class="footer-contact">
+          <a href="mailto:borsapusulasiweb@gmail.com"
+            >✉ borsapusulasiweb@gmail.com</a
+          >
+        </span>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast z1">
+      <div class="toast-ico" id="toastIco">✅</div>
+      <div>
+        <div class="toast-title" id="toastTitle">—</div>
+        <div class="toast-msg" id="toastMsg">—</div>
+      </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal" id="authModal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="loginForm">
+        <h2 class="modal-title">Giriş Yap</h2>
+        <div class="modal-field">
+          <label>Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="email@example.com"
+            onkeydown="if (event.key === 'Enter') handleLogin();"
+          />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="••••••"
+              style="width: 100%; padding-right: 36px"
+              onkeydown="if (event.key === 'Enter') handleLogin();"
+            />
+            <button
+              onclick="togglePass('loginPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="loginCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('loginCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="loginCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <p class="modal-switch" style="margin-bottom: 0.5rem">
+          Şifreni mi unuttun?
+          <span
+            onclick="forgotPasswordPublic()"
+            style="color: var(--green); cursor: pointer"
+          >
+            E-postana sıfırlama linki gönder
+          </span>
+        </p>
+        <div class="modal-error" id="loginError"></div>
+        <button class="modal-btn" onclick="handleLogin()">Giriş Yap</button>
+        <p class="modal-switch">
+          Hesabın yok mu? <span onclick="openModal('register')">Kayıt Ol</span>
+        </p>
+      </div>
+      <div id="registerForm" style="display: none">
+        <h2 class="modal-title">Kayıt Ol</h2>
+        <div class="modal-field">
+          <label>Kullanıcı Adı</label>
+          <input type="text" id="regUsername" placeholder="kullaniciadi" />
+        </div>
+        <div class="modal-field">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="email@example.com" />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="En az 6 karakter"
+              style="width: 100%; padding-right: 36px"
+            />
+            <button
+              onclick="togglePass('regPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="registerCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('registerCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="registerCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <div class="modal-error" id="registerError"></div>
+        <button class="modal-btn" onclick="handleRegister()">Kayıt Ol</button>
+        <p class="modal-switch">
+          Zaten hesabın var mı?
+          <span onclick="openModal('login')">Giriş Yap</span>
+        </p>
+      </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+  </body>
+</html>

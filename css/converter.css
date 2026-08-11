@@ -1,0 +1,67 @@
+/* css/converter.css */
+
+.converter-main {
+  max-width: 800px; margin: 0 auto;
+  padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;
+}
+
+.converter-wrap { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.converter-title {
+  font-family: var(--display); font-size: 2rem; color: var(--text);
+  text-align: center;
+}
+.converter-sub { font-size: 0.75rem; color: var(--text3); text-align: center; }
+
+/* Kart */
+.converter-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 0.5rem;
+}
+
+.conv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.conv-field { display: flex; flex-direction: column; gap: 6px; }
+.conv-field label { font-size: 0.62rem; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
+
+.conv-field input,
+.conv-field select {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px;
+  color: var(--text); font-family: var(--mono); font-size: 1rem;
+  outline: none; transition: border-color 0.2s;
+}
+.conv-field input:focus,
+.conv-field select:focus { border-color: var(--green); }
+.conv-field select option { background: var(--bg2); }
+
+.conv-result {
+  background: var(--bg2); border: 1px solid var(--green);
+  border-radius: 10px; padding: 14px 16px;
+  color: var(--green); font-family: var(--mono); font-size: 1rem;
+  font-weight: 700; min-height: 52px; display: flex; align-items: center;
+}
+
+/* Swap */
+.conv-swap { display: flex; justify-content: center; padding: 0.3rem 0; }
+.swap-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 50%; width: 40px; height: 40px;
+  font-size: 1.1rem; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2);
+}
+.swap-btn:hover { border-color: var(--green); color: var(--green); transform: rotate(180deg); }
+
+/* Kur bilgisi */
+.conv-rate {
+  text-align: center; font-size: 0.72rem; color: var(--text3);
+  padding: 0.5rem; background: var(--bg2); border-radius: 8px;
+}
+
+/* Tablo */
+.rate-table { width: 100%; border-collapse: collapse; }
+.rate-table th { padding: 0.55rem 1rem; font-size: 0.62rem; color: var(--text3); text-align: left; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.rate-table td { padding: 0.7rem 1rem; font-size: 0.78rem; border-bottom: 1px solid rgba(45,55,72,0.4); }
+.rate-table tbody tr:hover { background: var(--surface2); }
+.rate-table tbody tr:last-child td { border-bottom: none; }

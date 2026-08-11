@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canlı Borsa</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════
+     HEADER
+    ═══════════════════════════════════════════ -->
+    <div style="flex: 1">
+      <header class="header z1">
+        <div class="header-left">
+          <a href="index.html" style="text-decoration: none">
+            <div class="logo">
+              <span class="logo-icon">◈</span>
+              <span class="logo-text">BORSA<span>PUSULASI</span></span>
+            </div>
+          </a>
+
+          <nav class="main-nav">
+            <a href="index.html" class="nav-item active">Piyasa</a>
+            <a href="portfolio.html" class="nav-item">Portföy</a>
+            <a href="forex.html" class="nav-item">Döviz</a>
+            <a href="converter.html" class="nav-item">Dönüştürücü</a>
+            <a href="news.html" class="nav-item">Haberler</a>
+            <a href="profile.html" class="nav-item">Profil</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <div class="header-stat">
+            <span>BTC Dom</span><b id="hBtcDom">52.4%</b>
+          </div>
+          <div class="header-stat">
+            <span>Hacim 24s</span><b id="hVol">$94.2B</b>
+          </div>
+          <div class="header-stat">
+            <span>Korku & Açg.</span
+            ><b id="hFgi" style="color: var(--gold)">72 Açgözlü</b>
+          </div>
+
+          <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+            title="Tema Değiştir"
+          >
+            🌙
+          </button>
+          <button class="header-btn-outline" onclick="openModal('login')">
+            Giriş Yap
+          </button>
+          <button class="header-btn-solid" onclick="openModal('register')">
+            Kayıt Ol
+          </button>
+
+          <div class="user-info" id="userInfo" style="display: none">
+            <div class="user-dropdown-wrap">
+              <button
+                class="user-avatar-btn"
+                id="userAvatarBtn"
+                onclick="toggleDropdown()"
+              >
+                <span class="user-avatar-icon" id="userAvatarIcon">?</span>
+                <span id="userGreet"></span>
+                <span class="dropdown-arrow">▾</span>
+              </button>
+              <div class="user-dropdown" id="userDropdown">
+                <a href="profile.html" class="dropdown-item">👤 Profil</a>
+                <a href="settings.html" class="dropdown-item"
+                  >⚙️ Hesap Ayarları</a
+                >
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item danger" onclick="logout()">
+                  🚪 Çıkış Yap
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ═══════════════════════════════════════════
+     TICKER BAND
+    ═══════════════════════════════════════════ -->
+      <div class="ticker-wrap z1">
+        <div class="ticker" id="ticker">
+          <span class="ti"
+            ><span class="ti-sym">BTC/USDT</span
+            ><span class="ti-price" id="t0">$67,842</span
+            ><span class="ti-chg up" id="tc0">▲2.31%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">ETH/USDT</span
+            ><span class="ti-price" id="t1">$3,521</span
+            ><span class="ti-chg up" id="tc1">▲1.87%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">SOL/USDT</span
+            ><span class="ti-price" id="t2">$178.4</span
+            ><span class="ti-chg up" id="tc2">▲4.23%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">BNB/USDT</span
+            ><span class="ti-price" id="t3">$412.1</span
+            ><span class="ti-chg dn" id="tc3">▼0.54%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">ADA/USDT</span
+            ><span class="ti-price" id="t4">$0.583</span
+            ><span class="ti-chg dn" id="tc4">▼1.12%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">AVAX/USDT</span
+            ><span class="ti-price" id="t5">$41.22</span
+            ><span class="ti-chg up" id="tc5">▲3.05%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">DOT/USDT</span
+            ><span class="ti-price" id="t6">$8.92</span
+            ><span class="ti-chg dn" id="tc6">▼0.33%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">LINK/USDT</span
+            ><span class="ti-price" id="t7">$18.41</span
+            ><span class="ti-chg up" id="tc7">▲2.74%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">MATIC/USDT</span
+            ><span class="ti-price" id="t8">$0.91</span
+            ><span class="ti-chg up" id="tc8">▲1.55%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">XRP/USDT</span
+            ><span class="ti-price" id="t9">$0.622</span
+            ><span class="ti-chg up" id="tc9">▲0.88%</span></span
+          >
+          <!-- duplicate for seamless scroll -->
+          <span class="ti"
+            ><span class="ti-sym">BTC/USDT</span
+            ><span class="ti-price">$67,842</span
+            ><span class="ti-chg up">▲2.31%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">ETH/USDT</span
+            ><span class="ti-price">$3,521</span
+            ><span class="ti-chg up">▲1.87%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">SOL/USDT</span
+            ><span class="ti-price">$178.4</span
+            ><span class="ti-chg up">▲4.23%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">BNB/USDT</span
+            ><span class="ti-price">$412.1</span
+            ><span class="ti-chg dn">▼0.54%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">ADA/USDT</span
+            ><span class="ti-price">$0.583</span
+            ><span class="ti-chg dn">▼1.12%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">AVAX/USDT</span
+            ><span class="ti-price">$41.22</span
+            ><span class="ti-chg up">▲3.05%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">DOT/USDT</span
+            ><span class="ti-price">$8.92</span
+            ><span class="ti-chg dn">▼0.33%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">LINK/USDT</span
+            ><span class="ti-price">$18.41</span
+            ><span class="ti-chg up">▲2.74%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">MATIC/USDT</span
+            ><span class="ti-price">$0.91</span
+            ><span class="ti-chg up">▲1.55%</span></span
+          >
+          <span class="ti"
+            ><span class="ti-sym">XRP/USDT</span
+            ><span class="ti-price">$0.622</span
+            ><span class="ti-chg up">▲0.88%</span></span
+          >
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+     ANA GRID
+    ═══════════════════════════════════════════ -->
+      <main class="main-grid z1">
+        <!-- SOL: GRAFİK + TABLO -->
+        <section class="left-col">
+          <div class="panel chart-panel">
+            <div class="chart-topbar">
+              <div class="coin-tabs" id="coinTabs">
+                <button class="ctab active" onclick="selectCoin(0, this)">
+                  BTC
+                </button>
+                <button class="ctab" onclick="selectCoin(1, this)">ETH</button>
+                <button class="ctab" onclick="selectCoin(2, this)">SOL</button>
+                <button class="ctab" onclick="selectCoin(3, this)">BNB</button>
+                <button class="ctab" onclick="selectCoin(4, this)">ADA</button>
+                <button class="ctab" onclick="selectCoin(5, this)">AVAX</button>
+                <button class="ctab" onclick="selectCoin(6, this)">DOT</button>
+                <button class="ctab" onclick="selectCoin(7, this)">LINK</button>
+                <button class="ctab" onclick="selectCoin(8, this)">
+                  MATIC
+                </button>
+                <button class="ctab" onclick="selectCoin(9, this)">XRP</button>
+              </div>
+              <div class="tf-tabs">
+                <button class="tftab active">1S</button>
+                <button class="tftab">4S</button>
+                <button class="tftab">1G</button>
+                <button class="tftab">1H</button>
+              </div>
+            </div>
+            <div class="chart-info">
+              <div class="ci-price loading" id="ciPrice">—</div>
+              <div class="ci-badge up" id="ciBadge">—</div>
+              <div class="ci-meta" id="ciMeta">Yükleniyor...</div>
+            </div>
+            <canvas id="chart" height="260"></canvas>
+          </div>
+
+          <div class="panel" id="market">
+            <div class="panel-head">
+              <span class="panel-title">Piyasa</span>
+            </div>
+            <table class="market-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Coin</th>
+                  <th>Fiyat</th>
+                  <th>24s %</th>
+                  <th>Piyasa Değeri</th>
+                  <th>Hacim</th>
+                  <th>Sparkline</th>
+                </tr>
+              </thead>
+              <tbody id="marketBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Haberler -->
+          <div class="panel news-panel" id="news">
+            <div class="panel-head">
+              <span class="panel-title">📰 Kripto Haberleri</span>
+              <span class="panel-sub" id="newsTime"></span>
+            </div>
+            <div id="newsList" class="news-list">
+              <div class="news-loading">Haberler yükleniyor...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SAĞ: AL/SAT FORMU + EMIR DEFTERİ -->
+        <aside class="right-col">
+          <div class="panel trade-panel">
+            <div class="trade-tabs">
+              <button
+                class="ttab buy active"
+                id="tabBuy"
+                onclick="switchTab('buy')"
+              >
+                AL
+              </button>
+              <button
+                class="ttab sell"
+                id="tabSell"
+                onclick="switchTab('sell')"
+              >
+                SAT
+              </button>
+            </div>
+            <div class="trade-body">
+              <div class="field-group">
+                <label>Coin</label>
+                <select
+                  id="tradeCoinSelect"
+                  onchange="changeTradeCoin(this.value)"
+                >
+                  <option value="0">BTC — Bitcoin</option>
+                  <option value="1">ETH — Ethereum</option>
+                  <option value="2">SOL — Solana</option>
+                  <option value="3">BNB — BNB</option>
+                  <option value="4">ADA — Cardano</option>
+                  <option value="5">AVAX — Avalanche</option>
+                  <option value="6">DOT — Polkadot</option>
+                  <option value="7">LINK — Chainlink</option>
+                  <option value="8">MATIC — Polygon</option>
+                  <option value="9">XRP — XRP</option>
+                </select>
+              </div>
+              <div class="trade-type-row">
+                <button class="type-btn active">Limit</button>
+                <button class="type-btn">Market</button>
+                <button class="type-btn">OCO</button>
+              </div>
+              <div class="field-group">
+                <label>Fiyat (USDT)</label>
+                <div class="field-wrap">
+                  <input
+                    type="number"
+                    id="tradePrice"
+                    value="67842"
+                    oninput="calcSummary()"
+                  />
+                  <span class="field-unit">USDT</span>
+                </div>
+              </div>
+              <div class="field-group">
+                <label>Miktar</label>
+                <div class="field-wrap">
+                  <input
+                    type="number"
+                    id="tradeQty"
+                    value="0.001"
+                    step="0.0001"
+                    oninput="calcSummary()"
+                  />
+                  <span class="field-unit" id="tradeUnit">BTC</span>
+                </div>
+                <div class="pct-row">
+                  <button class="pct" onclick="setPct(25)">25%</button>
+                  <button class="pct" onclick="setPct(50)">50%</button>
+                  <button class="pct" onclick="setPct(75)">75%</button>
+                  <button class="pct" onclick="setPct(100)">100%</button>
+                </div>
+              </div>
+              <!-- OCO Alanı -->
+              <div class="field-group" id="ocoRow" style="display: none">
+                <label>Stop Fiyatı (USDT)</label>
+                <div class="field-wrap">
+                  <input
+                    type="number"
+                    id="ocoStop"
+                    placeholder="Stop..."
+                    oninput="calcSummary()"
+                  />
+                  <span class="field-unit">USDT</span>
+                </div>
+                <div class="field-wrap" style="margin-top: 4px">
+                  <input
+                    type="number"
+                    id="ocoTake"
+                    placeholder="Kar Al..."
+                    oninput="calcSummary()"
+                  />
+                  <span class="field-unit">USDT</span>
+                </div>
+              </div>
+              <div class="summary-box">
+                <div class="sum-row">
+                  <span>Toplam</span><span id="sumTotal">—</span>
+                </div>
+                <div class="sum-row">
+                  <span>Komisyon (%0.1)</span><span id="sumFee">—</span>
+                </div>
+                <div class="sum-row total">
+                  <span>Ödenecek</span><span id="sumNet">—</span>
+                </div>
+              </div>
+              <button
+                class="trade-btn buy-btn"
+                id="tradeBtn"
+                onclick="placeOrder()"
+              >
+                BTC AL
+              </button>
+            </div>
+          </div>
+
+          <div class="panel orderbook-panel">
+            <div class="panel-head">
+              <span class="panel-title">Emir Defteri</span>
+            </div>
+            <div class="ob-head">
+              <span>Fiyat (USDT)</span><span>Miktar (BTC)</span
+              ><span>Toplam</span>
+            </div>
+            <div id="obAsks" class="ob-side asks"></div>
+            <div class="ob-spread" id="obSpread">
+              $67,842 <span class="up">▲ 0.02%</span>
+            </div>
+            <div id="obBids" class="ob-side bids"></div>
+          </div>
+
+          <!-- Fiyat Alarmları -->
+          <div class="panel alarm-panel">
+            <div class="panel-head">
+              <span class="panel-title">🔔 Fiyat Alarmları</span>
+            </div>
+            <div class="alarm-form">
+              <select id="alarmSym">
+                <option value="BTC">BTC</option>
+                <option value="ETH">ETH</option>
+                <option value="SOL">SOL</option>
+                <option value="BNB">BNB</option>
+                <option value="ADA">ADA</option>
+                <option value="AVAX">AVAX</option>
+                <option value="DOT">DOT</option>
+                <option value="LINK">LINK</option>
+                <option value="MATIC">MATIC</option>
+                <option value="XRP">XRP</option>
+              </select>
+              <select id="alarmCond">
+                <option value="above">▲ Üzerine çıkarsa</option>
+                <option value="below">▼ Altına inerse</option>
+              </select>
+              <input
+                type="number"
+                id="alarmPrice"
+                placeholder="Hedef fiyat..."
+              />
+              <button class="alarm-add-btn" onclick="addAlarm()">
+                Alarm Kur
+              </button>
+            </div>
+            <div id="alarmList" class="alarm-list"></div>
+            <div
+              class="panel-head"
+              style="border-top: 1px solid var(--border); border-bottom: none"
+            >
+              <span class="panel-title">📋 Geçmiş</span>
+              <button
+                class="alarm-del"
+                onclick="clearAlarmHistory()"
+                title="Geçmişi temizle"
+              >
+                🗑️
+              </button>
+            </div>
+            <div id="alarmHistory" class="alarm-list"></div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <footer class="site-footer z1">
+      <div class="footer-inner">
+        <span class="footer-logo">◈ BORSAPUSULASI</span>
+        <div class="footer-mid">
+          <span class="footer-copy"
+            >© 2026 Borsa Pusulası. Tüm hakları saklıdır.</span
+          >
+          <span class="footer-disclaimer"
+            >Bu platform yatırım tavsiyesi vermez.</span
+          >
+        </div>
+        <span class="footer-contact">
+          <a href="mailto:borsapusulasiweb@gmail.com"
+            >✉ borsapusulasiweb@gmail.com</a
+          >
+        </span>
+      </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast z1">
+      <div class="toast-ico" id="toastIco">✅</div>
+      <div>
+        <div class="toast-title" id="toastTitle">—</div>
+        <div class="toast-msg" id="toastMsg">—</div>
+      </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    <div class="modal" id="authModal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="loginForm">
+        <h2 class="modal-title">Giriş Yap</h2>
+        <div class="modal-field">
+          <label>Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="email@example.com"
+            onkeydown="if (event.key === 'Enter') handleLogin();"
+          />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="••••••"
+              style="width: 100%; padding-right: 36px"
+              onkeydown="if (event.key === 'Enter') handleLogin();"
+            />
+            <button
+              onclick="togglePass('loginPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="loginCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('loginCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="loginCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <p class="modal-switch" style="margin-bottom: 0.5rem">
+          Şifreni mi unuttun?
+          <span
+            onclick="forgotPasswordPublic()"
+            style="color: var(--green); cursor: pointer"
+          >
+            E-postana sıfırlama linki gönder
+          </span>
+        </p>
+        <div class="modal-error" id="loginError"></div>
+        <button class="modal-btn" onclick="handleLogin()">Giriş Yap</button>
+        <p class="modal-switch">
+          Hesabın yok mu? <span onclick="openModal('register')">Kayıt Ol</span>
+        </p>
+      </div>
+      <div id="registerForm" style="display: none">
+        <h2 class="modal-title">Kayıt Ol</h2>
+        <div class="modal-field">
+          <label>Kullanıcı Adı</label>
+          <input type="text" id="regUsername" placeholder="kullaniciadi" />
+        </div>
+        <div class="modal-field">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="email@example.com" />
+        </div>
+        <div class="modal-field">
+          <label>Şifre</label>
+          <div style="position: relative">
+            <input
+              type="password"
+              id="regPassword"
+              placeholder="En az 6 karakter"
+              style="width: 100%; padding-right: 36px"
+            />
+            <button
+              onclick="togglePass('regPassword', this)"
+              class="pass-toggle"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Güvenlik Kodu</label>
+          <div style="display: flex; gap: 0.6rem; align-items: center">
+            <canvas
+              id="registerCaptchaCanvas"
+              width="150"
+              height="44"
+              style="border-radius: 6px; cursor: pointer"
+              onclick="drawCaptcha('registerCaptchaCanvas')"
+              title="Yenilemek için tıkla"
+            ></canvas>
+            <span style="font-size: 0.6rem; color: var(--text3)">↺</span>
+          </div>
+          <input
+            type="text"
+            id="registerCaptchaInput"
+            placeholder="Kodu girin"
+            style="letter-spacing: 3px; text-transform: uppercase"
+            maxlength="5"
+          />
+        </div>
+        <div class="modal-error" id="registerError"></div>
+        <button class="modal-btn" onclick="handleRegister()">Kayıt Ol</button>
+        <p class="modal-switch">
+          Zaten hesabın var mı?
+          <span onclick="openModal('login')">Giriş Yap</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/alarm.js"></script>
+    <script src="js/fear.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="js/table.js"></script>
+    <script src="js/orderbook.js"></script>
+    <script src="js/trade.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
