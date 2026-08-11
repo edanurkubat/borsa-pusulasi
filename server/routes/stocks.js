@@ -62,6 +62,7 @@ router.get('/news', async (req, res) => {
     const response = await fetch(
       `https://finnhub.io/api/v1/news?category=crypto&token=${process.env.FINNHUB_KEY}`
     );
+
     const items = await response.json();
     const top8 = items.slice(0, 8);
 
